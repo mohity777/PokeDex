@@ -25,7 +25,7 @@ export const getList = (offset) => async (dispatch,getState) => {
 export const getFavourites = ()  => async dispatch => {
   try{
       const favourites = await AsyncStorage.getItem('favourites');
-      dispatch(genAction(TYPE.setFavourites,JSON.parse(favourites)))
+      dispatch(genAction(TYPE.setFavourites,JSON.parse(favourites)||[]))
   }catch(error){
     throw error
   }
