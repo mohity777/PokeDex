@@ -76,7 +76,6 @@ const PokemonList = ({route, navigation}) => {
     let newData = list.filter((item)=>
       item.name.includes(val.toLowerCase())
     )
-    console.log(val,newData)
     setData(newData)
   }
   
@@ -100,6 +99,7 @@ const PokemonList = ({route, navigation}) => {
               index={index}
               favourites={favourites}
               navigation={navigation}
+              highlight={value}
             />
           )}
           onRefresh={onRefresh}

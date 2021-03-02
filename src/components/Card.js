@@ -15,32 +15,33 @@ import {TYPE} from '../utils/strings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DropShadow from 'react-native-drop-shadow';
 import Sound from 'react-native-sound';
+import HighlightText from '@sanar/react-native-highlight-text';
 
-const Card = ({item, index, favourites,navigation}) => {
+const Card = ({item, index, favourites, navigation, highlight}) => {
   const [animated, setAnimate] = useState(false);
   const dispatch = useDispatch();
   const color = favourites.includes(item.details.id) ? '#F95959' : '#153359';
 
-   if (
-     Platform.OS === 'android' &&
-     UIManager.setLayoutAnimationEnabledExperimental
-   ) {
-     UIManager.setLayoutAnimationEnabledExperimental(true);
-   }
+  if (
+    Platform.OS === 'android' &&
+    UIManager.setLayoutAnimationEnabledExperimental
+  ) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
 
   const onPress = () => {
     let sound = new Sound(require('../assets/audios/like.wav'), (error) => {
       if (error) {
         console.log('failed to load the sound', error);
       } else {
-        sound.play(); 
-        startAnimation()
+        sound.play();
+        startAnimation();
       }
     });
   };
 
-  const startAnimation = async() => {
-   let newFavourites = [];
+  const startAnimation = async () => {
+    let newFavourites = [];
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     if (!favourites.includes(item.details.id)) {
       setAnimate(true);
@@ -51,7 +52,7 @@ const Card = ({item, index, favourites,navigation}) => {
     await AsyncStorage.setItem('favourites', JSON.stringify(newFavourites));
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     await dispatch(genAction(TYPE.setFavourites, newFavourites));
-  }
+  };
 
   const renderRight = () => {
     if (animated)
@@ -68,27 +69,28 @@ const Card = ({item, index, favourites,navigation}) => {
     else
       return (
         <TouchableOpacity onPress={onPress}>
-          <Icon
-            name="md-heart-sharp"
-            style={[styles.icon,{color}]}
-          />
+          <Icon name="md-heart-sharp" style={[styles.icon, {color}]} />
         </TouchableOpacity>
       );
   };
 
-  const getId = number => {
+  const getId = (number) => {
     let noOfDigits = number.toString().length;
-    switch(noOfDigits){
-      case 1 : return `#00${number}`
-      case 2: return `#0${number}`
-      default: return `#${number}`
+    switch (noOfDigits) {
+      case 1:
+        return `#00${number}`;
+      case 2:
+        return `#0${number}`;
+      default:
+        return `#${number}`;
     }
-  }
+  };
 
   return (
-    <DropShadow
-      style={[{shadowColor: color},styles.dropShadow]}>
-      <Shadow style={[styles.shadow, {borderLeftColor: color}]} onPress={()=>navigation.navigate('Details',{index})}>
+    <DropShadow style={[{shadowColor: color}, styles.dropShadow]}>
+      <Shadow
+        style={[styles.shadow, {borderLeftColor: color}]}
+        onPress={() => navigation.navigate('Details', {index})}>
         <View style={[styles.cent, {flex: 1}]}>
           <View style={styles.imgWrap}>
             <FastImage
@@ -100,9 +102,13 @@ const Card = ({item, index, favourites,navigation}) => {
             />
           </View>
         </View>
-        <View
-          style={[ styles.cent,styles.txtVw]}>
-          <Text style={[styles.text, {color}]}>{item.name}</Text>
+        <View style={[styles.cent, styles.txtVw]}>
+          <HighlightText
+            highlightStyle={{backgroundColor: 'yellow'}}
+            searchWords={[highlight]}
+            textToHighlight={item.name}
+            style={[styles.text, {color}]}
+          />
           <Text style={styles.id}>{getId(item.details.id)}</Text>
         </View>
         <View style={[styles.cent, {flex: 1}]}>{renderRight()}</View>

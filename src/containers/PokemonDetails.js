@@ -38,8 +38,6 @@ const PokemonDetails = ({route,navigation}) => {
     })
     return value
    }
-
-   console.log(item?.details?.sprites?.back_shiny);
    
     return (
       <ScrollView contentContainerStyle={styles.container}>
