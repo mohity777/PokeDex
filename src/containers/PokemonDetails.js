@@ -20,7 +20,7 @@ const LabelVal = ({label, val}) => {
 }
 
 const PokemonDetails = ({route,navigation}) => {
-   const item = useSelector(state=>state.pokemon.list)[route.params.index]
+   const item = useSelector(state=>state.pokemon.list).find(item=>item.details.id == route.params.id)
    const colors = {
      speed: 'rgb(219,40,40)',
      'special-defense': 'rgb(242,113,28)',

@@ -54,6 +54,7 @@ const PokemonList = ({route, navigation}) => {
 
   const onRefresh = () => {
     offset.current = 0;
+    setValue('')
     dispatch(genAction(TYPE.setList, []));
     setRefreshing(true);
     apiCall();

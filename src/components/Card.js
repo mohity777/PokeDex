@@ -90,7 +90,7 @@ const Card = ({item, index, favourites, navigation, highlight}) => {
     <DropShadow style={[{shadowColor: color}, styles.dropShadow]}>
       <Shadow
         style={[styles.shadow, {borderLeftColor: color}]}
-        onPress={() => navigation.navigate('Details', {index})}>
+        onPress={() => navigation.navigate('Details', {id:item.details.id})}>
         <View style={[styles.cent, {flex: 1}]}>
           <View style={styles.imgWrap}>
             <FastImage
